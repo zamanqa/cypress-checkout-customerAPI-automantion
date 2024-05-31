@@ -1,0 +1,100 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-05-30T19:38:24.386Z",
+    "end": "2024-05-30T19:39:31.320Z",
+    "duration": 66934,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "147222f3-d14f-4edd-8be6-5811b4260308",
+      "title": "",
+      "fullFile": "cypress\\integration\\testcases\\checkout-shopify-stripe-op.spec.js",
+      "file": "cypress\\integration\\testcases\\checkout-shopify-stripe-op.spec.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "1188d8ba-1dd3-40a1-9693-00f18aeda438",
+          "title": "Place Order for Shopify (shop system) Stripe (Payment method)- CompanyID (734f-4c766638po)",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Complete an Order for Shopify Stripe and Validate in CMS Database",
+              "fullTitle": "Place Order for Shopify (shop system) Stripe (Payment method)- CompanyID (734f-4c766638po) Complete an Order for Shopify Stripe and Validate in CMS Database",
+              "timedOut": null,
+              "duration": 64620,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.url().should(\"include\", _apiKeyCartId.default.PO_api_key).and(\"include\", _apiKeyCartId.default.PO_cart_id);\ncy.contains(\"Address & Payment\").should(\"be.visible\");\n(0, _selectCalender.selectCalendarDate)();\n(0, _selectCompanyName.enterCompanyName)(this.data.company_name);\n(0, _getVatNumber.enterVatNumber)(this.data.vatNumber);\n(0, _getPersonalDetails.enterPersonalDetails)(this.data.firstName, this.data.lastName, this.data.email, this.data.phoneNumber);\n(0, _selectDateOfBirth.selectDateOfBirth)(this.data.year, this.data.month, this.data.date);\n(0, _getAddress.enterFullAddress)(this.data.streetName, this.data.streetNo, this.data.postCode, this.data.city, this.data.country);\n(0, _getNote.enterNote)(this.data.note);\n(0, _striprPaymentProcess.enterPaymentDetails)(this.data);\ncy.contains(\"Select\").click();\ncy.contains(\"Continue\").click().wait(5000);\ncheckoutPageElement.getCheckBox().each($checkbox => {\n  cy.wrap($checkbox).click({\n    force: true\n  }).should(\"be.checked\");\n});\ncheckoutPageElement.getClickOnPay().click().wait(15000);\n(0, _orderUtils.saveOrderNumberToFixture)();\ncy.wait(15000);\ncy.checkOrderExistsInDatabase();",
+              "err": {},
+              "uuid": "c40f1c0f-4a5f-486d-97a3-557cccfe1d7e",
+              "parentUUID": "1188d8ba-1dd3-40a1-9693-00f18aeda438",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "c40f1c0f-4a5f-486d-97a3-557cccfe1d7e"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 64620,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.2.0"
+    }
+  }
+}

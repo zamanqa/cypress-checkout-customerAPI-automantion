@@ -1,0 +1,28 @@
+{
+  "name": "checkoutautomation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "shopifyStripe": "npx cypress run --record --key 11b50d44-20eb-4650-b92d-a8a6ad36cfa2 --browser chrome --headed --spec \"cypress/integration/testcases/checkout-shopify-stripe-op.spec.js\"",
+    "allSpecFileHeadless": "npx cypress run --record --key 11b50d44-20eb-4650-b92d-a8a6ad36cfa2 --browser chrome --headless --spec \"cypress/integration/testcases/*.spec.js\"",
+    "allSpecFileHeaded": "npx cypress run --record --key 11b50d44-20eb-4650-b92d-a8a6ad36cfa2 --browser chrome --headed --spec \"cypress/integration/testcases/*.spec.js\"",
+    "test": "npx cypress run",
+    "headTest": "npx cypress run --headed",
+    "chromeTest": "npx cypress run --browser chrome"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^10.11.0",
+    "cypress-iframe": "^1.0.1",
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0",
+    "prettier": "3.2.5"
+  },
+  "dependencies": {
+    "pg": "^8.11.5"
+  }
+}
