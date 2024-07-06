@@ -29,8 +29,6 @@ describe("Place Order for Woccomarce (shop system) Mollie (Payment method)- Comp
       .should("include", apiKeyCartId.wocommerceMollie_api_key)
       .and("include", apiKeyCartId.wocommerceMollie_cart_id);
     cy.contains("Address & Payment").should("be.visible");
-
-    enterVatNumber(this.data.vatNumber);
     enterCompanyName(this.data.company_name);
     selectCalendarDate();
 

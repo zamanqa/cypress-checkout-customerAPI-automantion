@@ -33,7 +33,6 @@ describe("Place Order for Saleor (shop system) Mollie (Payment method)- CompanyI
     enterCompanyName();
     selectCalendarDate();
     enterCompanyName();
-    enterVatNumber();
     enterPersonalDetails(
       this.data.firstName,
       this.data.lastName,

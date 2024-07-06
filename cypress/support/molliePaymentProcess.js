@@ -7,8 +7,8 @@ export const molliePaymentDetails = function (data) {
   const molliePayPageObject = new MolliePayPageObject();
 
   molliePayPageObject.getClickOnCraditCard().click();
-  cy.contains("Continue").click().wait(5000);
-  checkoutPageElement.getClickOnPay().click().wait(10000);
+  cy.contains("Continue").click().wait(15000);
+  checkoutPageElement.getClickOnPay().click().wait(15000);
   cy.url().then((url) => {
     cy.log("Current URL:", url);
     cy.readFile("cypress/fixtures/example.json").then((data) => {

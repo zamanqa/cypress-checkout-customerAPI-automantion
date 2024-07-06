@@ -6,7 +6,7 @@ module.exports = defineConfig({
   projectId: "hqczzg",
   reporter: "cypress-mochawesome-reporter",
   retries: {
-    runMode: 2, // Number of retries for `cypress run`
+    runMode: 1, // Number of retries for `cypress run`
   },
   e2e: {
     setupNodeEvents(on, config) {

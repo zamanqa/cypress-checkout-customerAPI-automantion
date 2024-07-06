@@ -38,7 +38,6 @@ describe("Place Order for shopify (shop system) adyen (Payment method)- CompanyI
       this.data.email,
       this.data.phoneNumber
     );
-    enterVatNumber(this.data.vatNumber);
     enterCompanyName(this.data.company_name);
     selectCalendarDate();
 

@@ -30,7 +30,6 @@ describe("Place Order for Shopify (shop system) Stripe (Payment method)- Company
     cy.contains("Address & Payment").should("be.visible");
     selectCalendarDate();
     enterCompanyName(this.data.company_name);
-    enterVatNumber(this.data.vatNumber);
     enterPersonalDetails(
       this.data.firstName,
       this.data.lastName,

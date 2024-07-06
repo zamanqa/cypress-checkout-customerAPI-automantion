@@ -29,7 +29,6 @@ describe("Place Order for Woocommerce (shop system) Stripe (Payment method)- Com
     cy.contains("Address & Payment").should("be.visible");
     selectCalendarDate();
     enterCompanyName(this.data.company_name);
-    enterVatNumber(this.data.vatNumber);
     enterPersonalDetails(
       this.data.firstName,
       this.data.lastName,

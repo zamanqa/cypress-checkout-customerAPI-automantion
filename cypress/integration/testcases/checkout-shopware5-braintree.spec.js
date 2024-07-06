@@ -29,7 +29,6 @@ describe("Place Order for Shopware5 (shop system) Braintree (Payment method)- Co
     cy.url().should("include", apiKey).and("include", cartId);
     cy.contains("Address & Payment").should("be.visible");
     enterCompanyName(this.data.company_name);
-    enterVatNumber(this.data.vatNumber);
     enterPersonalDetails(
       this.data.firstName,
       this.data.lastName,

@@ -28,8 +28,6 @@ describe("Place Order for Shopify (shop system) Mollie (Payment method)- Company
       .should("include", apiKeyCartId.shopifyMollie_api_key)
       .and("include", apiKeyCartId.shopifyMollie_cart_id);
     cy.contains("Address & Payment").should("be.visible");
-
-    enterVatNumber(this.data.vatNumber);
     enterCompanyName(this.data.company_name);
     selectCalendarDate();
 
