@@ -74,7 +74,7 @@ class CheckoutPageObject {
     return cy.get("[data-test-id='billing_street_number']");
   }
   getPostCode() {
-    return cy.get("[data-test-id='billing_postal_code']");
+    return cy.get("[data-test-id='billing_postal_code']").first();
   }
   getCity() {
     return cy.get("[data-test-id='billing_city']");

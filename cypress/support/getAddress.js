@@ -11,7 +11,7 @@ export const enterFullAddress = function (
   const checkoutPageObject = new CheckoutPage();
   checkoutPageObject.getBillingAddress().click().type(streetName);
   checkoutPageObject.getBilling_Street().click().type(streetNo);
-  checkoutPageObject.getPostCode().click().type(postCode);
+  checkoutPageObject.getPostCode().click({ multiple: true }).type(postCode);
   checkoutPageObject.getCity().click().type(city);
 
   cy.get("div[class='v-select__selections'] input").then(($btn) => {
