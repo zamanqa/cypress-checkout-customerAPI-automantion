@@ -18,15 +18,15 @@ import apiKeyCartId from "../../fixtures/apiKeyCartId.json";
 describe("Place Order for Saleor (shop system) Stripe (Payment method)- CompanyID (3976-45763665ye)", function () {
   const checkoutPageElement = new CheckoutPageObject();
   const molliePayPageObject = new MolliePayPageObject();
-  const apiKey = apiKeyCartId.saleorStripe_api_key;
-  const cartId = apiKeyCartId.saleorStripe_cart_id;
+  const apiKey = apiKeyCartId.saleorStripe_api_key_usa;
+  const cartId = apiKeyCartId.saleorStripe_cart_id_usa;
 
   setupFixtureAndVisitUrl(apiKey, cartId);
 
   it("Complete an Order for Saleor Stripe and Validate in CMS Database", function () {
     cy.url()
-      .should("include", apiKeyCartId.saleorStripe_api_key)
-      .and("include", apiKeyCartId.saleorStripe_cart_id);
+      .should("include", apiKeyCartId.saleorStripe_api_key_usa)
+      .and("include", apiKeyCartId.saleorStripe_cart_id_usa);
     cy.contains("Address & Payment").should("be.visible");
     selectCalendarDate();
     enterCompanyName();
