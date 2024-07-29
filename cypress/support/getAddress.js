@@ -16,7 +16,7 @@ export const enterFullAddress = function (
 
   cy.get("div[class='v-select__selections'] input").then(($btn) => {
     if ($btn.is(":enabled")) {
-      cy.get($btn).click().wait(1000);
+      cy.get($btn).click({ multiple: true }).wait(1000);
       cy.get("div[class='v-list-item__title']").then((selectCountry) => {
         cy.get(selectCountry).each(($el, index, $list) => {
           const selectedCountry = $el.text();

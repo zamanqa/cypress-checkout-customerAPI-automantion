@@ -8,6 +8,9 @@
   "saleorStripe_api_key_usa": "dev_seleor_stripe_1/",
   "saleorStripe_cart_id_usa": "dev_saleor_mollie_cart_usa",
 
+  "saleorStripe_api_key_sapin": "dev_seleor_stripe_1/",
+  "saleorStripe_cart_id_sapin": "dev_saleor_mollie_cart_spain",
+
   "shopifyAdyen_api_key": "dev_shopify_adyen/",
   "shopifyAdyen_cart_id": "dev_shopify_stripe_cart_degital_1",
 

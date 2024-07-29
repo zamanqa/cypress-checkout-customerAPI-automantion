@@ -41,8 +41,7 @@ describe("Place Order for Saleor (shop system) Stripe (Payment method)- CompanyI
       this.data.streetName_usa,
       this.data.streetNo_usa,
       this.data.postCode_usa,
-      this.data.city_usa,
-      this.data.country_usa
+      this.data.city_usa
     );
     enterNote();
     enterPaymentDetails(this.data);
