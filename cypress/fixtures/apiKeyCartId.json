@@ -23,6 +23,9 @@
   "shopifyStripe_api_key": "dev_shopify_stripe_cypress_test/",
   "shopifyStripe_cart_id": "dev_shopify_stripe_cart_degital_1",
 
+  "shopifyStripe_api_key_bacs": "dev_stripe_payment_test/",
+  "shopifyStripe_cart_id_bacs": "dev_shopify_stripe_cart_degital_1",
+
   "wocommerceMollie_api_key": "dev_woocommerce_mollie_1/",
   "wocommerceMollie_cart_id": "dev_woocommerce_mollie_cart",
 
