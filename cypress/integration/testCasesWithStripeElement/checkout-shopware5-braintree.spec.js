@@ -45,10 +45,10 @@ describe("Place Order for Shopware5 (shop system) Braintree (Payment method)- Co
     );
     cy.wait(5000);
     enterNote(this.data.note);
+    cy.contains("Continue").click().wait(15000)
     enterBraintreePaymentDetailsAndSubmit();
     cy.wait(5000);
     cy.contains("Select").click().wait(5000);
-    cy.contains("Continue").click().wait(15000);
     braintreePayPageObject.getClickOnPay().click().wait(30000);
 
     saveOrderNumberToFixture();
