@@ -17,7 +17,7 @@ module.exports = defineConfig({
           const pgConfig = {
             user: "ZdFFUsWiIuILvub",
             password: "rxoz32pYOeqYEAMVG263",
-            host: "circuly-development.csmudpdd3zlm.eu-central-1.rds.amazonaws.com",
+            host: "circuly-development-v12.csmudpdd3zlm.eu-central-1.rds.amazonaws.com",
             database: "postgres",
             ssl: false,
             port: 5432,

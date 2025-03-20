@@ -53,7 +53,7 @@ describe("Place Order for Saleor (shop system) Mollie (Payment method)- CompanyI
     cy.url().then((url) => {
       cy.log("Current URL:", url);
       saveOrderNumberToFixture();
-      cy.wait(15000);
+      cy.wait(30000);
       cy.checkOrderExistsInDatabase();
     });
   });
