@@ -4,11 +4,11 @@ class CheckoutPageObject {
   }
 
   getFirstName() {
-    return cy.get("[data-test-id='billing_firstname']");
+    return cy.get("[data-test-id='billing_first_name']");
   }
 
   getLastName() {
-    return cy.get("[data-test-id='billing_lastname']");
+    return cy.get("[data-test-id='billing_last_name']");
   }
 
   getEmailAddress() {
