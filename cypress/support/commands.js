@@ -1,4 +1,5 @@
 // ***********************************************
+import '../support/customer_api/draftOrdersCommands';
 import "cypress-iframe";
 Cypress.Commands.add(
   "typeInStripeIframe",
