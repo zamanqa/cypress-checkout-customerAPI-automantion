@@ -38,7 +38,7 @@ module.exports = defineConfig({
     },
 
     experimentalSessionAndOrigin: true,
-    //specPattern: "cypress/integration/customer_api_test/*.js",
-    specPattern: "cypress/integration/testCasesWithStripeElement/*.js",
+    specPattern: "cypress/integration/customer_api_test/*.js",
+    //specPattern: "cypress/integration/testCasesWithStripeElement/*.js",
   },
 });

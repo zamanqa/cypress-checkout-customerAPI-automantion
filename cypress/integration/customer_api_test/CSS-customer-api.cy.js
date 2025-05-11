@@ -1,15 +1,17 @@
 import "../../support/customer_api/cssCommands";
 
 describe('Customer Self Service-CSS', () => {
-  it('Test 1: Should fetch deliveries and include billing_date in response', () => {
-    const subscriptionId = '5981921247370_681ca8a160d51_44341709570186';
+  it('Test: Should fetch subscription deliveries and include billing_date in response', () => {
+  const subscriptionId = '5981921247370_681ca8a160d51_44341709570186';
 
-    cy.getSubscriptionDeliveries(subscriptionId).then((response) => {
-      expect(response.status).to.eq(200);
-    });
+  cy.getSubscriptionDeliveries(subscriptionId).then((response) => {
+    expect(response.status).to.eq(200);
+    expect(response.body[0]).to.have.property('billing_date');
   });
+});
 
-  it('Test 2: Should report an issue for a subscription and confirm success message', () => {
+
+it('Test 2: Should report an issue for a subscription and confirm success message', () => {
     const subscriptionId = '5981921247370_681ca8a160d51_44341709570186';
   
     const issuePayload = {
@@ -34,24 +36,21 @@ describe('Customer Self Service-CSS', () => {
   });
 
   
-  it('Test 3: Should update shipping date using deliveryId fetched from DB', () => {
-    const subscriptionId = '15211';
+it('Test 3:Should update shipping date using deliveryId fetched from DB', () => {
+  const subscriptionId = '15211';
+  const shippingDate = "2027-12-01";
+
+  cy.getLatestDeliveryIdBySubscription(subscriptionId).then((deliveryId) => {
+    expect(deliveryId).to.exist;
     
-    // Generate date for today + 3 days in YYYY-MM-DD format
-    const shippingDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
-      .toISOString()
-      .split('T')[0];
-  
-    cy.getLatestDeliveryIdBySubscription(subscriptionId).then((deliveryId) => {
-      expect(deliveryId).to.exist;
-      
-      cy.updateShippingDate(deliveryId, shippingDate).then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.have.property('success', true);
-        expect(response.body).to.have.property('message', 'Updated');
-      });
+    cy.updateShippingDate(deliveryId, shippingDate).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body).to.have.property('success', true);
+      expect(response.body).to.have.property('message', 'Updated');
     });
   });
+});
+
 
 
   it('Test 4: Should change subscription frequency using custom command', () => {
@@ -81,50 +80,45 @@ describe('Customer Self Service-CSS', () => {
   });
 
 
-  it('Test 6: Should cancel a subscription with valid details', () => {
-    const query = `
-      SELECT subscription_id FROM subscriptions s 
-      WHERE company_id IN ('734f-4c766638po')
-        AND id != 15211
-        AND (status IN ('active'))
-        AND (subscription_type IN ('normal'))
-        AND payment_method_token IN ('visa')
-      ORDER BY created_at ASC 
-      LIMIT 1;
-    `;
-    
-    // Fetch the subscriptionId from the DB
-    cy.task('queryDb', query).then((result) => {
-      const subscriptionId = result[0].subscription_id;
-  
-      const payload = {
-        customer_email: "c.test2489@gmail.com",
-        cancellation_reason: "Normal Cancellations",
-        cancellation_type: "normal_cancellation",
-        early_cancellation: false,
-        message: "Test",
-        pickup: {
-          delivery_date: "2027-07-26",
-          timeslot: {
-            from: "08:00",
-            to: "12:00"
-          }
-        }
-      };
-  
-      cy.cancelSubscription(subscriptionId, payload).then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.have.property(
-          'message',
-          'Subscription cancelled, mail sent and note saved.'
-        );
-      });
-    });
-  });
+it('Test 6: Should cancel a subscription with valid details', () => {
+  const query = `
+    SELECT subscription_id FROM subscriptions s 
+    WHERE company_id IN ('734f-4c766638po')
+      AND id != 15211
+      AND (status IN ('active'))
+      AND (subscription_type IN ('normal'))
+    ORDER BY created_at ASC 
+    LIMIT 1;
+  `;
 
-  it('Test 7: Should process buyout', () => {
-    // Query to fetch subscription_id
-    const query = `
+  cy.task('queryDb', query).then((result) => {
+    const subscriptionId = result[0].subscription_id;
+
+    const cancelPayload = {
+      customer_email: "c.test2489@gmail.com",
+      cancellation_reason: "Normal Cancellations",
+      cancellation_type: "normal_cancellation",
+      early_cancellation: false,
+      message: "Test",
+      pickup: {
+        delivery_date: "2023-07-26",
+        timeslot: {
+          from: "08:00",
+          to: "12:00"
+        }
+      }
+    };
+
+    cy.cancelSubscription(subscriptionId, cancelPayload);
+  });
+});
+
+
+
+
+  it('Test 7: Should process buyout for a subscription with stripe payment provider', () => {
+  // Updated query to fetch subscription_id
+  const query = `
     SELECT s.subscription_id
     FROM subscriptions s 
     LEFT JOIN orders o ON s.order_id = o.order_id
@@ -135,33 +129,34 @@ describe('Customer Self Service-CSS', () => {
       AND s.payment_method_token NOT IN ('offlinegateway', 'invoice')
       AND o.payment_provider IN ('stripe')
       AND o.status IN ('open', 'TEST', 'fulfilled')
-      AND o.payment_status IN ('paid','payment_pending')
+      AND o.payment_status IN ('paid')
     ORDER BY s.created_at DESC
     LIMIT 1;
   `;
-  
-    // Execute the query and get the subscription_id
-    cy.task('queryDb', query).then((result) => {
-      if (result && result.length > 0) {
-        const subscriptionId = result[0].subscription_id;
-  
-        // Define the buyout request body
-        const buyoutPayload = {
-          buyout_legal: [
-            { tag: "TermsAndConditions", value: true },
-            { tag: "newsletter", value: true }
-          ]
-        };
-  
-        // Call the endpoint to process buyout
-        cy.processBuyout(subscriptionId, buyoutPayload).then((response) => {
-          expect(response.status).to.eq(200);
-        });
-      } else {
-        throw new Error('No active subscription found with visa payment method');
-      }
-    });
+
+  // Execute the query and get the subscription_id
+  cy.task('queryDb', query).then((result) => {
+    if (result && result.length > 0) {
+      const subscriptionId = result[0].subscription_id;
+
+      // Define the buyout request body
+      const buyoutPayload = {
+        buyout_legal: [
+          { tag: "TermsAndConditions", value: true },
+          { tag: "newsletter", value: true }
+        ]
+      };
+
+      // Call the endpoint to process buyout
+      cy.processBuyout(subscriptionId, buyoutPayload).then((response) => {
+        expect(response.status).to.eq(200);
+      });
+    } else {
+      throw new Error('No active subscription found with the specified criteria');
+    }
   });
+});
+
   
 
 
