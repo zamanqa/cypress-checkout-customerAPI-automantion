@@ -1,5 +1,5 @@
-///<reference types="Cypress" />
-///<reference types="Cypress-iframe" />
+///<reference types="cypress" />
+///<reference types="cypress-iframe" />
 import "cypress-iframe";
 import { selectCalendarDate } from "../../support/selectCalender";
 import { enterCompanyName } from "../../support/selectCompanyName";

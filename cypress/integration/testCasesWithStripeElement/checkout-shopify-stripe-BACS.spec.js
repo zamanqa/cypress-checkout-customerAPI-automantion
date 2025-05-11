@@ -1,4 +1,4 @@
-///<reference types="Cypress" />
+///<reference types="cypress" />
 import "cypress-iframe";
 import { selectCalendarDate } from "../../support/selectCalender";
 import { enterCompanyName } from "../../support/selectCompanyName";
@@ -67,7 +67,7 @@ describe("Place Order for Shopify (shop system) Stripe (Payment method)- Company
     .then(($iframe) => {
       const $body = $iframe.contents().find("body");
       cy.wait(5000);
-      cy.wrap($body).find('[data-testid="hosted-payment-submit-button"]').click({ multiple: true });
+      cy.wrap($body).find('div.SubmitButton-IconContainer').click({ multiple: true, force: true });
       cy.wait(5000);
     });
 
