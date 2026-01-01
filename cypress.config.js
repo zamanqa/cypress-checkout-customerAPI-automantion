@@ -3,7 +3,7 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   defaultCommandTimeout: 20000,
   chromeWebSecurity: false,
-  projectId: "hqczzg",
+  projectId: "b68ot7",
   reporter: "cypress-mochawesome-reporter",
   retries: {
     runMode: 1, // Number of retries for `cypress run`
