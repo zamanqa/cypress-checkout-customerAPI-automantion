@@ -7,6 +7,7 @@
     "runOneSpecfile": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headed --spec \"cypress/integration/testCasesWithStripeElement/checkout-shopify-stripe-BACS.spec.js\"",
     "allSpecFileHeadless": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headless --spec \"cypress/integration/testCasesWithStripeElement/*.spec.js\"",
     "allSpecFileHeadedNew": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headed --spec \"cypress/integration/testCasesWithStripeElement/*.spec.js\"",
+    "customerApiAllSpecFileHeadedNew": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headed --spec \"cypress/integration/customer_api_test/*.spec.js\"",
     "test": "npx cypress run",
     "headTest": "npx cypress run --headed",
     "chromeTest": "npx cypress run --browser chrome"
