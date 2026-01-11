@@ -54,7 +54,7 @@ Cypress.Commands.add('getInvoiceById', (invoiceId) => {
       url: `${customerApiConfig.baseUrl}/api/2025-01/invoices/${invoiceNumber}/refund`,
       auth: customerApiConfig.auth,
       body: {
-        amount: 2,
+        amount: 1,
         cumulated_items: [],
         full_refund: true,
         items: [],
@@ -67,16 +67,23 @@ Cypress.Commands.add('getInvoiceById', (invoiceId) => {
   
   Cypress.Commands.add('refundLatestPaidInvoice', () => {
     const query = `
-      SELECT t.invoice_number FROM transactions t 
-      LEFT JOIN invoices i ON i.transaction_id = t.transaction_id AND i.company_id = t.company_id
-      WHERE t.company_id IN ('734f-4c766638po')
-        AND t.transaction_id ILIKE '%pi_%'
-        AND t.status IN ('succeeded')
-        AND i.paid = true
-        AND t.invoice_number IS NOT NULL
-        AND t.refunded_transaction_id IS NULL
-      ORDER BY t.created_at DESC
-      LIMIT 1
+    SELECT t.invoice_number 
+    FROM transactions t 
+    LEFT JOIN invoices i 
+      ON i.transaction_id = t.transaction_id 
+      AND i.company_id = t.company_id
+    WHERE t.company_id IN ('734f-4c766638po')
+      AND t.transaction_id ILIKE '%pi_%'
+      AND t.status IN ('succeeded')
+      AND i.paid = true
+      AND t.invoice_number IS NOT NULL
+      AND t.refunded_transaction_id IS NULL
+      AND invoice_type IN ('invoice') 
+      AND payment_service_provider IN ('stripe') 
+      AND payment_method IN ('card')
+      AND t."type" IN ('recurring payment')
+    ORDER BY t.created_at DESC
+    LIMIT 1;
     `;
   
     return cy.task('queryDb', query).then((result) => {
