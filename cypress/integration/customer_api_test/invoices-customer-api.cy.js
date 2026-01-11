@@ -43,6 +43,4 @@ describe('Customer Invoices API', () => {
       expect(response.body).to.have.property('message', 'Refund Payment Success');
     });
   });
-
-
 });

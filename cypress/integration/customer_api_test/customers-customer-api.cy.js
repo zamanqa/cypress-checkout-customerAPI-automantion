@@ -2,10 +2,10 @@ import '../../support/customer_api/customerCommands';
 
 describe('Customer API', () => {
 
-    const customerId = 'cus_Rnx5s6erx9iwx9';
+  const customerId = 'cus_Rnx5s6erx9iwx9';
   let referralCode = '';
 
-  it('Test 1: Fetch all customers and store first customer ID', () => {
+  it('Test 1: Return a paginated list of customers and store first customer ID', () => {
     cy.getAllCustomers().then((response) => {
       expect(response.status).to.eq(200);
       const firstCustomerId = response.body.data[0].id;
@@ -25,7 +25,7 @@ describe('Customer API', () => {
     });
   });
 
-  it('Test 3:Fetch customer balance using stored customer ID', () => {
+  it('Test 3:Shows customer balance using stored customer ID', () => {
     const customerId = Cypress.env('customerId');
     expect(customerId).to.be.a('string').and.not.to.be.empty;
   
@@ -36,7 +36,7 @@ describe('Customer API', () => {
     });
   });
 
-  it('Test 4: Add balance to customer and verify updated remaining_amount', () => {
+  it('Test 4: Update customer balance and verify updated remaining_amount', () => {
     const customerId = Cypress.env('customerId');
   
     const amountToAdd = 100;
@@ -93,8 +93,16 @@ describe('Customer API', () => {
     cy.deleteReferralCodeFromDB(codeToDelete);
   });
 
-  
+it('Test 8: Create a new customer with random external_customer_id and email', () => {
+  // Call the custom command to create the customer with a random email and external_customer_id
+  cy.createCustomer().then((response) => {
+    // Assert the response status is 201 (created)
+    expect(response.status).to.eq(201);
+    cy.log('Customer created:', response.body);
+  });
+});
 
 
 
 });
+

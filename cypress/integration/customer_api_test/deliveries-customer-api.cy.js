@@ -2,13 +2,13 @@ import '../../support/customer_api/deliveriesCommands';
 import { customerApiConfig } from '../../support/customer_api/config';
 
 describe('Deliveries API', () => {
-  it.only('should get all deliveries and save the first shipping date', () => {
+  it.only('Test 1: Return a list of deliveries and save the first shipping date', () => {
     cy.getAllDeliveries().then((shippingDate) => {
       cy.log(`Saved shipping date: ${shippingDate}`);
     });
   });
 
-  it.only('should fetch delivery using saved shipping date', () => {
+  it.only('Test 2: Returns all deliveries associated with a shipping date as list', () => {
     const shippingDate = Cypress.env('shipping_date');
     expect(shippingDate).to.exist;
 

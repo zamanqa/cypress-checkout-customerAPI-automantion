@@ -51,6 +51,28 @@ Cypress.Commands.add('updateSubscription', (subscriptionId, updateBody) => {
     });
   });
 
+Cypress.Commands.add('getLatestActiveNormalSubscriptionId', () => {
+  const query = `
+    SELECT subscription_id
+    FROM subscriptions
+    WHERE company_id = '734f-4c766638po'
+      AND real_end_date IS NULL
+      AND subscription_type = 'normal'
+      AND status = 'active'
+    ORDER BY created_at DESC
+    LIMIT 1;
+  `;
+
+  return cy.task('queryDb', query).then((rows) => {
+    expect(rows).to.be.an('array');
+    expect(rows.length).to.be.greaterThan(0);
+
+    return rows[0].subscription_id;
+  });
+});
+
+
+
   // Add Note
   Cypress.Commands.add('addSubscriptionNote', (subscriptionId, notePayload) => {
     return cy.request({

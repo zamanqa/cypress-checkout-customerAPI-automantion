@@ -45,5 +45,27 @@ Cypress.Commands.add('getAllDraftOrders', () => {
   });
 });
 
+// In cypress/support/customer_api/draftOrdersCommands.js
+
+Cypress.Commands.add('deleteDraftOrderById', (orderId) => {
+  return cy.request({
+    method: 'DELETE',
+    url: `${customerApiConfig.baseUrl}/api/2025-01/draft-orders/${orderId}`,  // Construct the URL dynamically with orderId
+    auth: customerApiConfig.auth,
+    headers: { 'Content-Type': 'application/json' },
+    timeout: 20000,  // Set the timeout to 20 seconds
+    failOnStatusCode: false  // Allow the test to continue even if the response is a failure (e.g., 404, 401)
+  }).then((response) => {
+    // Assert the response status is 200 (OK)
+    expect(response.status).to.eq(200);  // Ensure successful deletion
+    cy.log(`Successfully deleted draft order with ID: ${orderId}`);
+    // Do not return any synchronous value from here
+    // Just perform the necessary Cypress assertions inside this block.
+  });
+});
+
+
+
+
 
 

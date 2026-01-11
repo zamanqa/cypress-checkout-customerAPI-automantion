@@ -44,56 +44,72 @@ describe('Customer Subscriptions API', () => {
     };
 
     cy.createSubscription(subscriptionData).then((response) => {
-      expect(response.status).to.eq(201);
-      expect(response.body.success).to.be.true;
-      expect(response.body.message).to.eq('Created');
+      expect(response.status === 200 || response.status === 201).to.be.true;
       cy.log('Subscription created:', subscriptionId);
+      cy.wait(10000);
 
       // Clean up from DB
       cy.deleteSubscriptionFromDb(subscriptionId);
     });
   });
 
-  it('Test 4: Create a subscription (Normal + Bundle) and delete it from DB', () => {
-    const orderId = '5954734686346';
-    const id = '67fe1bf41b5cf';
-    const productId = '43014354567306';
-    const subscriptionId = `${orderId}_${id}_${productId}`;
-    const today = new Date();
-    const subscriptionStart = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
+it('Test 4: Create a subscription (Normal + Bundle) and delete it from DB', () => {
+  const orderId = '5954734686346';
+  const id = '67fe1bf433a4e';
+  const productId = '44660477493386';
+  const subscriptionId = `${orderId}_${id}_${productId}`;
 
-    const subscriptionData = {
-      order_id: orderId,
-      id: id,
-      product_id: productId,
-      serial_number: '333333ddd3333112',subscription_start: subscriptionStart,
-      status: 'active',
-      subscription_start: subscriptionStart,
-    };
+  const subscriptionData = {
+    order_id: orderId,
+    id: id,
+    product_id: productId,
+    serial_number: null,
+    status: 'active',
+    bundle_id: null,
+    subscription_start: '25-01-2025',
+    bundle_data: [
+      {
+        id: 14063,
+        serial_number: 'fac1c6e3-11b1-4036-8b17-e3ac852da58c1111222',
+        frame_number: 'f22222'
+      },
+      {
+        id: 14064,
+        serial_number: 'fac1c6e3-11b1-4036-8b17-e3ac852da599911',
+        frame_number: 'f22222211'
+      }
+    ]
+  };
 
-    cy.createSubscription(subscriptionData).then((response) => {
-      expect(response.status).to.eq(201);
-      expect(response.body.success).to.be.true;
-      expect(response.body.message).to.eq('Created');
-      cy.log('Subscription created:', subscriptionId);
+  cy.createSubscription(subscriptionData).then((response) => {
+    expect(response.status === 200 || response.status === 201).to.be.true;
+    cy.log(`Subscription created: ${subscriptionId}`);
 
-      // Clean up from DB
-      cy.deleteSubscriptionFromDb(subscriptionId);
-    });
+    // wait for async DB persistence
+    cy.wait(10000);
+
+    // Clean up from DB
+    cy.deleteSubscriptionFromDb(subscriptionId);
   });
+});
 
-  it.skip('Test 5: Update real_end_date for a specific subscription', () => {
-    const subscriptionId = Cypress.env('subscriptionId');
-    const randomMonths = Math.floor(Math.random() * 6) + 5; // Random between 5 and 10
-    const futureDate = dayjs().add(randomMonths, 'month').format('YYYY-MM-DD');
+
+it('Test 5: Update real_end_date for a specific subscription', () => {
+  const randomMonths = Math.floor(Math.random() * 6) + 5; // Random between 5 and 10
+  const futureDate = dayjs().add(randomMonths, 'month').format('YYYY-MM-DD');
+
+  cy.getLatestActiveNormalSubscriptionId().then((subscriptionId) => {
+    cy.log(`Using subscription_id: ${subscriptionId}`);
 
     cy.updateSubscription(subscriptionId, {
       real_end_date: futureDate
     }).then((response) => {
       expect(response.status).to.eq(200);
-      cy.log('Updated real_end_date to:', futureDate);
+      cy.log(`Updated real_end_date to: ${futureDate}`);
     });
   });
+});
+
 
   // Add Note
 

@@ -33,7 +33,7 @@ describe('Customer Orders API - Separated Tests Using Commands', () => {
     });
   });
 
-  it('Test 3: Create a new customer order with random 12-digit order_id', () => {
+  it('Test 3: Create a new order with random 12-digit order_id', () => {
     cy.createCustomerOrder().then((response) => {
       const orderId = response.body.order_id; // or wherever it's returned
       cy.log('Created Order ID:', orderId);

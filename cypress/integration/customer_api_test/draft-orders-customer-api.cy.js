@@ -1,9 +1,9 @@
-// cypress/integration/createDraftOrder.cy.js
+// In cypress/integration/createDraftOrder.cy.js
 
-import '../../support/customer_api/draftOrdersCommands';
-import { customerApiConfig } from '../../support/customer_api/config';
+import '../../support/customer_api/draftOrdersCommands';  // Import custom commands
+import { customerApiConfig } from '../../support/customer_api/config';  // Import API config for authentication
 
-describe('Create Draft Order and Visit Checkout', () => {
+describe('Create, Delete Draft Order and Visit Checkout', () => {
   const draftOrderPayload = {
     "remarks": "",
     "charge_by_invoice": false,
@@ -72,6 +72,7 @@ describe('Create Draft Order and Visit Checkout', () => {
     ]
   };
 
+  // Test 1: Create a new draft order and visit checkout link
   it('Test 1: should create a draft order and visit checkout link', () => {
     cy.createDraftOrder(draftOrderPayload).then(({ id, order_checkout_link }) => {
       cy.log(`Draft Order ID: ${id}`);
@@ -83,42 +84,57 @@ describe('Create Draft Order and Visit Checkout', () => {
     });
   });
 
-it('Test 2: should fetch all draft orders and save the first ID', () => {
-  cy.getAllDraftOrders().then((firstOrder) => {
-    expect(firstOrder, 'First draft order should exist').to.exist;
-    expect(firstOrder.id, 'First draft order should have an ID').to.exist;
+  // Test 2: Fetch all draft orders and save the first ID
+  it('Test 2: should fetch all draft orders and save the first ID', () => {
+    cy.getAllDraftOrders().then((firstOrder) => {
+      expect(firstOrder, 'First draft order should exist').to.exist;
+      expect(firstOrder.id, 'First draft order should have an ID').to.exist;
 
-    // Log the saved ID and store it for later
-    cy.log(`Saved Draft Order ID: ${firstOrder.id}`);
-    Cypress.env('savedDraftOrderId', firstOrder.id);
+      // Log the saved ID and store it for later use
+      cy.log(`Saved Draft Order ID: ${firstOrder.id}`);
+      Cypress.env('savedDraftOrderId', firstOrder.id);  // Save the ID for later use
+    });
   });
-});
 
-it('Test 3: should fetch a specific draft order by ID', () => {
-  const draftOrderId = Cypress.env('savedDraftOrderId'); // Retrieve the saved ID
+  // Test 3: Fetch a specific draft order by ID and validate its content
+  it('Test 3: should fetch a specific draft order by ID', () => {
+    const draftOrderId = Cypress.env('savedDraftOrderId');  // Retrieve the saved draft order ID
+
+    // Ensure the ID exists
+    expect(draftOrderId, 'Draft Order ID should exist').to.exist;
+
+    // Send a GET request using the saved ID to fetch the specific draft order details
+    cy.request({
+      method: 'GET',
+      url: `${customerApiConfig.baseUrl}/api/2025-01/draft-orders/${draftOrderId}`,
+      auth: customerApiConfig.auth,
+      headers: { 'Content-Type': 'application/json' },
+      timeout: 20000
+    }).then((response) => {
+      expect(response.status).to.eq(200);  // Ensure the response status is 200 (OK)
+      const order = response.body;
+
+      // Assert that the draft order has the expected structure
+      expect(order).to.have.property('id', draftOrderId);  // Ensure the fetched order ID matches the saved one
+      expect(order).to.have.property('order_checkout_link');  // Ensure the order has the checkout link
+
+      // Log the fetched draft order details
+      cy.log(`Fetched Draft Order ID: ${order.id}`);
+      cy.log(`Checkout Link: ${order.order_checkout_link}`);
+    });
+  });
+
+it('Test 4: should delete a specific draft order by ID', () => {
+  const draftOrderId = Cypress.env('savedDraftOrderId');  // Retrieve the saved draft order ID
 
   // Ensure the ID exists
   expect(draftOrderId, 'Draft Order ID should exist').to.exist;
 
-  // Send a GET request using the saved ID
-  cy.request({
-    method: 'GET',
-    url: `${customerApiConfig.baseUrl}/api/2025-01/draft-orders/${draftOrderId}`,
-    auth: customerApiConfig.auth,
-    headers: { 'Content-Type': 'application/json' },
-    timeout: 20000
-  }).then((response) => {
-    expect(response.status).to.eq(200);
-    const order = response.body;
-
-    // Assert that the draft order has the expected structure
-    expect(order).to.have.property('id', draftOrderId);
-    expect(order).to.have.property('order_checkout_link');
-    cy.log(`Fetched Draft Order ID: ${order.id}`);
-    cy.log(`Checkout Link: ${order.order_checkout_link}`);
+  // Delete the draft order using the custom command with the updated 20-second timeout
+  cy.deleteDraftOrderById(draftOrderId).then(() => {
+    // Log the successful deletion (this happens after the DELETE request finishes)
+    cy.log(`Draft Order with ID ${draftOrderId} deleted successfully.`);
   });
 });
-
-
 
 });

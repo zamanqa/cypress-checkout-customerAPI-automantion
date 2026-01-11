@@ -2,7 +2,7 @@ import "../../support/customer_api/cssCommands";
 
 describe('Customer Self Service-CSS', () => {
   it('Test: Should fetch subscription deliveries and include billing_date in response', () => {
-  const subscriptionId = '5981921247370_681ca8a160d51_44341709570186';
+  const subscriptionId = '6492735176842_696389f878eb6_44341709570186';
 
   cy.getSubscriptionDeliveries(subscriptionId).then((response) => {
     expect(response.status).to.eq(200);
@@ -12,7 +12,7 @@ describe('Customer Self Service-CSS', () => {
 
 
 it('Test 2: Should report an issue for a subscription and confirm success message', () => {
-    const subscriptionId = '5981921247370_681ca8a160d51_44341709570186';
+    const subscriptionId = '6492735176842_696389f878eb6_44341709570186';
   
     const issuePayload = {
       customer_email: "c.test2489@gmail.com",
@@ -37,16 +37,19 @@ it('Test 2: Should report an issue for a subscription and confirm success messag
 
   
 it('Test 3:Should update shipping date using deliveryId fetched from DB', () => {
-  const subscriptionId = '15211';
-  const shippingDate = "2027-12-01";
+  const subscriptionId = '15825';
+  const shippingDate = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
   cy.getLatestDeliveryIdBySubscription(subscriptionId).then((deliveryId) => {
-    expect(deliveryId).to.exist;
+  console.log('Fetched Delivery ID:', deliveryId); // Log to verify
+  expect(deliveryId).to.exist;
+
     
-    cy.updateShippingDate(deliveryId, shippingDate).then((response) => {
-      expect(response.status).to.eq(200);
-      expect(response.body).to.have.property('success', true);
-      expect(response.body).to.have.property('message', 'Updated');
+cy.updateShippingDate(deliveryId, shippingDate).then((response) => {
+    console.log('Response:', response); // Log the response for debugging
+    expect(response.status).to.eq(200);
+    expect(response.body).to.have.property('success', true);
+    expect(response.body).to.have.property('message', 'Updated');
     });
   });
 });
@@ -54,7 +57,7 @@ it('Test 3:Should update shipping date using deliveryId fetched from DB', () => 
 
 
   it('Test 4: Should change subscription frequency using custom command', () => {
-    const subscriptionId = '5981921247370_681ca8a160d51_44341709570186';
+    const subscriptionId = '6490754515082_69610f0a392dc_44341709570186';
     const randomInterval = Math.floor(Math.random() * 3) + 1;
   
     cy.changeSubscriptionFrequency(subscriptionId, randomInterval).then((response) => {
@@ -70,7 +73,7 @@ it('Test 3:Should update shipping date using deliveryId fetched from DB', () => 
 
   it('Test 5: Should perform bundle swap successfully', () => {
     const subscriptionId = '5981921247370_681ca8a160d51_44341709570186';
-    const productVariantId = '7300';
+    const productVariantId = '7824';
   
     cy.bundleSwap(subscriptionId, productVariantId).then((response) => {
       expect(response.status).to.eq(202);
