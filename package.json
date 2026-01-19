@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "runOneSpecfile": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headed --spec \"cypress/integration/testCasesWithStripeElement/checkout-shopify-stripe-BACS.spec.js\"",
-    "allCheckoutTestHeadless": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headless --spec \"cypress/integration/testCasesWithStripeElement/*.spec.js\"",
-    "allCheckoutTestHead": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headed --spec \"cypress/integration/testCasesWithStripeElement/*.spec.js\"",
+    "runOneSpecfile": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headed --spec \"cypress/integration/checkout/checkout-shopify-stripe-BACS.spec.js\"",
+    "allCheckoutTestHeadless": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headless --spec \"cypress/integration/checkout/*.spec.js\"",
+    "allCheckoutTestHead": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headed --spec \"cypress/integration/checkout/*.spec.js\"",
     "customerApiTestHeaded": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headed --spec \"cypress/integration/customer_api_test/*.cy.js\"",
     "customerApiTestHeadedless": "npx cypress run --record --key abe5b4e9-5926-48a0-9f89-2757dfda7a22 --browser chrome --headless --spec \"cypress/integration/customer_api_test/*.cy.js\"",
     "test": "npx cypress run",
