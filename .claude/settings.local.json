@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npx cypress open)",
+      "Bash(npx cypress:*)",
+      "Bash(npm install:*)",
+      "Bash(dir \"C:\\\\Users\\\\shahi\\\\AppData\\\\Local\\\\Cypress\\\\Cache\\\\13.17.0\\\\Cypress\\\\Cypress.exe\")",
+      "Bash(\"C:\\\\Users\\\\shahi\\\\AppData\\\\Local\\\\Cypress\\\\Cache\\\\13.17.0\\\\Cypress\\\\Cypress.exe\" --version)",
+      "Bash(cmd.exe /c \"cd /d \"\"c:\\\\Users\\\\shahi\\\\Circuly Project\\\\checkoutCutomerApi e2e\\\\cypress-checkout-customerAPI-automantion\"\" && npx cypress verify\")",
+      "Bash(unset:*)"
+    ]
+  }
+}
