@@ -1,3 +1,23 @@
+# Test artifacts
 cypress/videos/
 cypress/reports/
 cypress/screenshots/
+cypress/downloads/
+
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+.env.local
+
+# Claude CLI local config (don't commit)
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
